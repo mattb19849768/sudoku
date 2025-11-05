@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudoku</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Home Screen -->
+<div id="screen-home">
+    <h1>Sudoku</h1>
+
+    <div class="player-area">
+        <input id="playerNameInput" placeholder="enter player name">
+        <button id="addPlayerBtn">Add</button>
+    </div>
+
+    <select id="playerSelect"></select>
+
+    <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+
+    <button id="playBtn" class="greenBtn">▶ Start Game</button>
+    <button id="leaderboardBtn">🏆 Leaderboard</button>
+</div>
+
+<!-- Game Screen -->
+<div id="screen-game" class="hidden">
+    <div class="game-header">
+        <div id="gameInfo">
+            Player: <span id="currentPlayerDisplay"></span> |
+            Difficulty: <span id="currentDifficulty"></span> |
+            Errors: <span id="errorCount">0</span> |
+            Time: <span id="timer">0:00</span>
+        </div>
+
+        <div class="game-buttons">
+            <button id="newGameBtn">New Game</button>
+            <button id="checkBtn">Check</button>
+            <button id="solveBtn">Solve</button>
+            <button id="exitBtn">Exit</button>
+        </div>
+    </div>
+
+    <div id="sudoku"></div>
+
+    <div id="numpad">
+        <button class="numkey">1</button>
+        <button class="numkey">2</button>
+        <button class="numkey">3</button>
+        <button class="numkey">4</button>
+        <button class="numkey">5</button>
+        <button class="numkey">6</button>
+        <button class="numkey">7</button>
+        <button class="numkey">8</button>
+        <button class="numkey">9</button>
+        <button id="clearKey"><img src="images/eraser.jpg" alt="Eraser"></button>
+    </div>
+
+    <canvas id="fx"></canvas>
+</div>
+
+<!-- Win Modal -->
+<div id="winModal" class="hidden">
+    <div class="modalBox">
+        <h2>Completed!</h2>
+        <div id="winTime"></div>
+        <button id="closeWinBtn">OK</button>
+    </div>
+</div>
+
+<!-- Leaderboard Modal -->
+<div id="leaderboardModal" class="hidden">
+  <div class="modalBox">
+    <h2>Leaderboard</h2>
+    <div id="leaderboardContent"></div>
+    <button id="closeLeaderboardBtn">Close</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
