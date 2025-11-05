@@ -10,24 +10,27 @@
 
 <!-- Home Screen -->
 <div id="screen-home">
-    <h1>Sudoku</h1>
+    <div class="home-container">
+        <h1>Sudoku</h1>
 
-    <div class="player-area">
-        <input id="playerNameInput" placeholder="enter player name">
-        <button id="addPlayerBtn">Add</button>
+        <div class="player-area">
+            <input id="playerNameInput" placeholder="enter player name">
+            <button id="addPlayerBtn">Add</button>
+        </div>
+
+        <select id="playerSelect"></select>
+
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+
+        <button id="playBtn" class="greenBtn">▶ Start Game</button>
+        <button id="leaderboardBtn">🏆 Leaderboard</button>
     </div>
-
-    <select id="playerSelect"></select>
-
-    <select id="difficulty">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-    </select>
-
-    <button id="playBtn" class="greenBtn">▶ Start Game</button>
-    <button id="leaderboardBtn">🏆 Leaderboard</button>
 </div>
+
 
 <!-- Game Screen -->
 <div id="screen-game" class="hidden">

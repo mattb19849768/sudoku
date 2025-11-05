@@ -51,10 +51,30 @@ document.addEventListener('DOMContentLoaded', () => {
       opt.value = name;
       opt.textContent = name;
       playerSelect.appendChild(opt);
+      savePlayers();
     }
     playerSelect.value = name;
     player = name;
   }
+
+  function savePlayers() {
+    const players = [...playerSelect.options].map(opt => opt.value);
+    localStorage.setItem('sudoku_players', JSON.stringify(players));
+  }
+
+  function loadPlayers() {
+    const stored = JSON.parse(localStorage.getItem('sudoku_players') || '[]');
+    stored.forEach(name => {
+      if (![...playerSelect.options].some(opt => opt.value === name)) {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        playerSelect.appendChild(opt);
+      }
+    });
+  }
+
+  loadPlayers();
 
   addPlayerBtn.addEventListener('click', addPlayer);
   playerSelect.addEventListener('change', () => { player = playerSelect.value; });
@@ -346,4 +366,5 @@ function resizeFxCanvas(){
 }
 
 window.addEventListener('resize', resizeFxCanvas);
-});
+
+}); // end DOMContentLoaded

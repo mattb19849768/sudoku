@@ -6,9 +6,11 @@
 }
 body {
     font-family: Arial, sans-serif;
-    background: #f9f9f9;
+    background: url('images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: #333;
 }
+
 .hidden {
     display: none !important;
 }
@@ -183,4 +185,43 @@ select {
     #sudoku { width: 90vw; }
     .game-buttons button { font-size: 0.9rem; padding: 6px 10px; min-width: 60px; }
     #numpad button { width: 45px; height: 45px; font-size: 1.3rem; }
+}
+#sudoku, .game-buttons, #numpad {
+    background-color: rgba(255,255,255,0.85);
+    border-radius: 8px;
+    padding: 5px;
+}
+.game-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+
+    /* Add this for background behind text */
+    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+.player-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+
+    /* Add this for background behind text */
+    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+.home-container {
+    background-color: rgba(255, 255, 255, 0.95); /* almost solid white */
+    padding: 40px 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
