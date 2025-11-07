@@ -333,3 +333,22 @@ select {
     padding: 0;
     border-radius: 0;
 }
+
+/* --- Footer --- */
+footer {
+  margin-top: 3rem;
+  color: #000000;
+  font-size: 1.0rem;
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* space between logo and text */
+}
+
+.footer-logo {
+  width: 20px;      /* tiny size */
+  height: auto;
+  vertical-align: middle;
+}
