@@ -11,29 +11,35 @@
 <!-- Home Screen -->
 <div id="screen-home">
     <div class="home-container">
-        <h1>Sudoku</h1>
+    <h1>Sudoku</h1>
 
-        <div class="player-area">
-            <input id="playerNameInput" placeholder="enter player name">
-            <button id="addPlayerBtn">Add</button>
-        </div>
-
-        <select id="playerSelect"></select>
-
-        <select id="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-  <a href="https://mattb19849768.github.io/Game-hub/" id="gameHub" class="button" style="text-decoration: none;">Game Hub</a>
-        <button id="playBtn" class="greenBtn">▶ Start Game</button>
-        <button id="leaderboardBtn">🏆 Leaderboard</button>
+    <div class="player-area">
+        <input id="playerNameInput" placeholder="enter player name">
+        <button id="addPlayerBtn">Add</button>
     </div>
+
+    <select id="playerSelect"></select>
+    <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+
+    <div class="button-row">
+
+        <button id="leaderboardBtn">🏆 Leaderboard</button>
+        <button id="playBtn" class="greenBtn">▶ Start Game</button>
+
+		        <a href="https://mattb19849768.github.io/Game-hub/" id="gameHub" class="button">🏠 Game Hub</a>
+    </div>
+</div>
+
 </div>
 
 
 <!-- Game Screen -->
 <div id="screen-game" class="hidden">
+    <div class="game-container">
     <div class="game-header">
         <div id="gameInfo">
             Player: <span id="currentPlayerDisplay"></span> |
@@ -66,6 +72,7 @@
     </div>
 
     <canvas id="fx"></canvas>
+</div>
 </div>
 
 <!-- Win Modal -->

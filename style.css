@@ -47,20 +47,84 @@ button.greenBtn {
   text-align: center;
 }
 
+/* ---------------- Home Container ---------------- */
+.home-container {
+    background-color: rgba(220, 235, 255, 0.95); /* very pale blue */
+    padding: 40px 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
 /* ---------------- Player / Difficulty ---------------- */
 .player-area {
+    display: flex;
+    width: 100%;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
-#playerNameInput {
-    padding: 6px;
+.player-area input {
+    flex: 1;
+    padding: 8px 10px;
     font-size: 1rem;
 }
 
-select {
-    padding: 6px;
+.player-area button {
+    padding: 8px 15px;
     font-size: 1rem;
-    margin: 5px;
+    cursor: pointer;
+}
+
+select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* ---------------- Button Row ---------------- */
+.button-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.home-container button,
+.home-container a.button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.home-container .greenBtn {
+    background-color: #28a745;
+    color: white;
+}
+
+.home-container .greenBtn:hover,
+.home-container button:hover,
+.home-container a.button:hover {
+    opacity: 0.9;
+}
+
+/* Optional: heading */
+.home-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
 }
 
 /* ---------------- Game Header ---------------- */
@@ -69,8 +133,14 @@ select {
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
+
+    /* Add this for background behind text */
+    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
+    padding: 10px 15px;
+    border-radius: 8px;
 }
 
+/* ---------------- Game Buttons ---------------- */
 .game-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -188,48 +258,78 @@ select {
     text-align:center;
 }
 
+/* ---------------- Panels & Transparency ---------------- */
+#sudoku, .game-buttons, #numpad {
+    background-color: rgba(255,255,255,0.85);
+    border-radius: 8px;
+}
+
+.player-area {
+    background-color: rgba(220, 235, 255, 0.85); /* semi-transparent pale blue */
+    border-radius: 8px;
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.game-buttons {
+	    background-color: rgba(220, 235, 255, 0.85); /* semi-transparent pale blue */
+}
+
 /* ---------------- Responsive ---------------- */
 @media(max-width: 600px){
     #sudoku { width: 90vw; }
     .game-buttons button { font-size: 0.9rem; padding: 6px 10px; min-width: 60px; }
     #numpad button { width: 45px; height: 45px; font-size: 1.3rem; }
 }
-#sudoku, .game-buttons, #numpad {
-    background-color: rgba(255,255,255,0.85);
-    border-radius: 8px;
-    padding: 5px;
-}
-.game-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
 
-    /* Add this for background behind text */
-    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
-    padding: 10px 15px;
-    border-radius: 8px;
-}
-.player-area {
+.home-container a.button {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
-
-    /* Add this for background behind text */
-    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
-    padding: 10px 15px;
-    border-radius: 8px;
+    justify-content: center;
+    gap: 5px; /* space between icon and text */
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    background-color: #007bff; /* blue, like Leaderboard */
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
 }
-.home-container {
-    background-color: rgba(255, 255, 255, 0.95); /* almost solid white */
-    padding: 40px 30px;
+
+.home-container a.button:hover {
+    background-color: #0069d9;
+}
+
+.game-container {
+    background-color: rgba(220, 235, 255, 0.95); /* same pale blue as home panel */
+    padding: 20px 25px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    gap: 15px;
+    max-width: 550px;
+    width: 95%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* Ensure game-header and numpad are consistent */
+.game-header {
+    width: 100%;
+    background-color: rgba(220, 235, 255, 0); /* transparent because the panel now provides background */
+    padding: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+#numpad {
+    width: 100%;
+    background-color: rgba(220, 235, 255, 0); /* transparent to rely on panel */
+    padding: 0;
+    border-radius: 0;
 }
