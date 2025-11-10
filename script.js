@@ -190,10 +190,11 @@ function isValid(board,row,col,num) {
 
 // Shuffle array
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
-
-// ---------------- Render Sudoku ----------------
+// ---------------- Render Sudoku (div-based cells; no inputs) ----------------
 function renderSudoku() {
     sudokuEl.innerHTML='';
+    selectedCell = null;
+
     for (let r=0;r<9;r++){
         for (let c=0;c<9;c++){
             const cellDiv = document.createElement('div');
@@ -203,39 +204,61 @@ function renderSudoku() {
             if(c%3===0) cellDiv.classList.add('thick-left');
             if(c%3===2) cellDiv.classList.add('thick-right');
 
-            const input=document.createElement('input');
-            input.type='text';
-            input.maxLength=1;
-            input.dataset.r=r;
-            input.dataset.c=c;
-            if(puzzle[r][c]!==0){input.value=puzzle[r][c]; input.disabled=true;}
-            input.addEventListener('input', onCellInput);
-            cellDiv.appendChild(input);
+            cellDiv.dataset.r = r;
+            cellDiv.dataset.c = c;
+
+            if (puzzle[r][c] !== 0) {
+                cellDiv.textContent = puzzle[r][c];
+                cellDiv.classList.add('given');
+            } else {
+                cellDiv.textContent = '';
+            }
+
+            // Ensure no keyboard shows on mobile
+            cellDiv.setAttribute('contenteditable','false');
+
+            // Click selects cell unless it's a given
+            cellDiv.addEventListener('click', () => {
+                if (cellDiv.classList.contains('given')) return;
+                if (selectedCell) selectedCell.classList.remove('selected');
+                selectedCell = cellDiv;
+                selectedCell.classList.add('selected');
+            });
+
             sudokuEl.appendChild(cellDiv);
         }
     }
-
-    sudokuEl.addEventListener('click', e=>{
-        const inp = e.target.closest('input');
-        if(!inp || inp.disabled) return;
-        if(selectedCell) selectedCell.classList.remove('selected');
-        selectedCell = inp.parentElement;
-        selectedCell.classList.add('selected');
-    });
 }
 
-// ---------------- Cell Input ----------------
-function onCellInput(e){
-    const val = e.target.value;
-    const r = parseInt(e.target.dataset.r,10);
-    const c = parseInt(e.target.dataset.c,10);
-    e.target.classList.remove('incorrect');
-    if(!/^[1-9]?$/.test(val)) e.target.value='';
-    else if(val !== '' && parseInt(val,10) !== solution[r][c]){
-      e.target.classList.add('incorrect');
-      errors++;
-      errorCount.textContent = errors;
+// ---------------- Cell Input handler (used by numpad actions) ----------------
+function handleCellEntry(cell, value) {
+    // cell = DOM element (div.cell), value = '' or '1'..'9'
+    const r = parseInt(cell.dataset.r, 10);
+    const c = parseInt(cell.dataset.c, 10);
+
+    // Clear previous incorrect marker if any
+    cell.classList.remove('incorrect');
+
+    if (value === '' || value === null) {
+        cell.textContent = '';
+        puzzle[r][c] = 0;
+        return;
     }
+
+    // Put value into div and model
+    cell.textContent = value;
+    puzzle[r][c] = Number(value);
+
+    // Validate against solution (immediate feedback)
+    if (Number(value) !== solution[r][c]) {
+        cell.classList.add('incorrect');
+        errors++;
+        errorCount.textContent = errors;
+    } else {
+        // correct input; remove incorrect if present
+        cell.classList.remove('incorrect');
+    }
+
     checkWinCondition();
 }
 
@@ -243,13 +266,28 @@ function onCellInput(e){
 if(numPad){
     numPad.addEventListener('click', e=>{
       const btn = e.target.closest('button');
-      if(!btn || !selectedCell) return;
-      const input = selectedCell.querySelector('input');
-      if(!input || input.disabled) return;
-      if(btn.id==='clearKey') input.value='';
-      else input.value=btn.textContent;
-      input.classList.remove('incorrect');
-      onCellInput({target:input});
+      if(!btn) return;
+      if(!selectedCell) return;
+
+      // don't allow editing given cells
+      if (selectedCell.classList.contains('given')) return;
+
+      const inputId = btn.id || '';
+      if(inputId === 'clearKey') {
+        // clear cell
+        const r = parseInt(selectedCell.dataset.r,10);
+        const c = parseInt(selectedCell.dataset.c,10);
+        selectedCell.textContent = '';
+        puzzle[r][c] = 0;
+        selectedCell.classList.remove('incorrect');
+        return;
+      }
+
+      const v = btn.textContent.trim();
+      if(!/^[1-9]$/.test(v)) return;
+
+      // write into selected cell and validate
+      handleCellEntry(selectedCell, v);
     });
 }
 
@@ -259,13 +297,16 @@ solveBtn.addEventListener('click', solveBoard);
 
 function checkBoard(){
     errors=0;
-    const inputs=sudokuEl.querySelectorAll('input');
-    inputs.forEach(input=>{
-      const r=parseInt(input.dataset.r,10);
-      const c=parseInt(input.dataset.c,10);
-      input.classList.remove('incorrect');
-      if(!input.disabled && input.value!=='' && parseInt(input.value,10)!==solution[r][c]){
-        input.classList.add('incorrect');
+    const cells = sudokuEl.querySelectorAll('.cell');
+    cells.forEach(cell=>{
+      const r=parseInt(cell.dataset.r,10);
+      const c=parseInt(cell.dataset.c,10);
+      cell.classList.remove('incorrect');
+      // skip given cells
+      if (cell.classList.contains('given')) return;
+      const valText = (cell.textContent || '').trim();
+      if(valText !== '' && parseInt(valText,10) !== solution[r][c]){
+        cell.classList.add('incorrect');
         errors++;
       }
     });
@@ -273,13 +314,13 @@ function checkBoard(){
 }
 
 function solveBoard(){
-    const inputs = sudokuEl.querySelectorAll('input');
-    inputs.forEach(input=>{
-      const r=parseInt(input.dataset.r,10);
-      const c=parseInt(input.dataset.c,10);
-      input.value = solution[r][c];
-      input.disabled = true;
-      input.classList.remove('incorrect');
+    const cells = sudokuEl.querySelectorAll('.cell');
+    cells.forEach(cell=>{
+      const r=parseInt(cell.dataset.r,10);
+      const c=parseInt(cell.dataset.c,10);
+      cell.textContent = solution[r][c];
+      cell.classList.add('given');
+      cell.classList.remove('incorrect');
     });
     stopTimer();
     showFireworks();
@@ -290,19 +331,20 @@ function solveBoard(){
 
 // ---------------- Win Detection ----------------
 function checkWinCondition(){
-    const inputs = sudokuEl.querySelectorAll('input');
+    const cells = sudokuEl.querySelectorAll('.cell');
     let complete=true;
-    inputs.forEach(input=>{
-      const r=parseInt(input.dataset.r,10);
-      const c=parseInt(input.dataset.c,10);
-      if(input.value==='' || parseInt(input.value,10)!==solution[r][c]) complete=false;
+    cells.forEach(cell=>{
+      const r=parseInt(cell.dataset.r,10);
+      const c=parseInt(cell.dataset.c,10);
+      const valText = (cell.textContent || '').trim();
+      if(valText === '' || parseInt(valText,10) !== solution[r][c]) complete=false;
     });
     if(complete){
       stopTimer();
       showFireworks();
       winTime.textContent = `Time: ${formatTime(seconds)} | Errors: ${errors}`;
       winModal.classList.remove('hidden');
-      inputs.forEach(input=>input.disabled=true);
+      cells.forEach(cell=>cell.classList.add('given'));
       saveUserTime(player,difficulty,seconds);
     }
 }
